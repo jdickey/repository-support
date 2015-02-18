@@ -18,9 +18,13 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'activemodel', '>= 3.2.0'
+
   spec.add_development_dependency 'bundler', '~> 1.7'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rubocop', '>= 0.28.0'
   spec.add_development_dependency 'simplecov', '>= 0.9.1'
+  spec.add_development_dependency 'awesome_print'
+  spec.add_development_dependency 'pry-byebug'
 end
