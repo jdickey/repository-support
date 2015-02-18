@@ -105,6 +105,16 @@ the value of `error_data` written to the log would be (formatted for clarity)
 Note that no guarantees are made for ordering, just as seems to be the case for
 `ActiveModel::Errors`.
 
+### A Note on Parameters
+
+All *public* methods (including `#initialize`) in each of these classes that
+have multiple arguments use the keyword-argument specification introduced in
+Ruby 2.0. By removing order dependency of arguments, inadvertent-reordering
+errors are no longer a
+[hunt-the-typo](http://en.wikipedia.org/wiki/Hunt_the_Wumpus)
+exercise. This rule *does not* apply to single-parameter methods, nor to
+`private` methods.
+
 ## Contributing
 
 1. Fork it ( https://github.com/jdickey/repository-support/fork )
