@@ -1,7 +1,7 @@
 # Repository::Support
 
 This Gem provides several support classes for
-[`Repository::Base`](https://github.com/jdickey/repository_base) and its
+[`Repository::Base`](https://github.com/jdickey/repository-base) and its
 user-created subclasses, which implement the Repository layer of a typical Data
 Mapper pattern architecture.
 
