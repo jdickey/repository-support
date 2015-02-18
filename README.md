@@ -1,5 +1,7 @@
 # Repository::Support
 
+[ ![Codeship Status for jdickey/repository-support](https://codeship.com/projects/224d6180-997e-0132-c9c3-165733f17d49/status?branch=master)](https://codeship.com/projects/63652)
+
 This Gem provides several support classes for
 [`Repository::Base`](https://github.com/jdickey/repository-base) and its
 user-created subclasses, which implement the Repository layer of a typical Data
