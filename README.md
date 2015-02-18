@@ -1,5 +1,11 @@
 # Repository::Support
 
+[![Gem Version](https://badge.fury.io/rb/repository-support.svg)](http://badge.fury.io/rb/repository-support)
+[![Code Climate](https://codeclimate.com/github/jdickey/repository-support/badges/gpa.svg)](https://codeclimate.com/github/jdickey/repository-support)
+[ ![Codeship Status for jdickey/repository-support](https://codeship.com/projects/224d6180-997e-0132-c9c3-165733f17d49/status?branch=master)](https://codeship.com/projects/63652)
+[![security](https://hakiri.io/github/jdickey/repository-support/master.svg)](https://hakiri.io/github/jdickey/repository-support/master)
+[![Dependency Status](https://gemnasium.com/jdickey/repository-support.svg)](https://gemnasium.com/jdickey/repository-support)
+
 This Gem provides several support classes for
 [`Repository::Base`](https://github.com/jdickey/repository-base) and its
 user-created subclasses, which implement the Repository layer of a typical Data
