@@ -1,5 +1,6 @@
 # Repository::Support
 
+[![Code Climate](https://codeclimate.com/github/jdickey/repository-support/badges/gpa.svg)](https://codeclimate.com/github/jdickey/repository-support)
 [ ![Codeship Status for jdickey/repository-support](https://codeship.com/projects/224d6180-997e-0132-c9c3-165733f17d49/status?branch=master)](https://codeship.com/projects/63652)
 
 This Gem provides several support classes for
