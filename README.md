@@ -6,16 +6,18 @@
 [![security](https://hakiri.io/github/jdickey/repository-support/master.svg)](https://hakiri.io/github/jdickey/repository-support/master)
 [![Dependency Status](https://gemnasium.com/jdickey/repository-support.svg)](https://gemnasium.com/jdickey/repository-support)
 
-This Gem provides several support classes for
+This Gem provides several support classes and modules for
 [`Repository::Base`](https://github.com/jdickey/repository-base) and its
 user-created subclasses, which implement the Repository layer of a typical Data
 Mapper pattern architecture.
 
-These classes are:
+These classes and modules are:
 
 * `ErrorFactory` provides a single class method, `.create` which, when supplied with an `ActiveModel::Errors`-quacking object as a parameter, produces an Array of Hashes containing JSON-compatible error information;
 * `ResultBuilder` is a Command-pattern class whose `#initialize` method takes one parameter and whose `#build` method evaluates that value. If it is truthy, then `#build` returns a `StoreResult::Success` (see below) with that value as its "paylaaod". If the value is falsy, then `#build` returns a `StoreResult#Failure`, yielding the value to a block that returns the payload for the `StoreResult`.
 * `StoreResult` is a simple value object with three accessors for values passed in to the `#initialize` method: namely `#entity` (some value object); `#success` (a Boolean, aliased as `#success?`); and `#errors` an Array of error records as created by `ErrorFactory.create`. It has two subclasses: `StoreResult::Success` fills in a `StoreResult` using its single parameter (the entity) and defaults for the other fields; and `StoreResult::Failure`, which does likewise initialised with an array of error hashes.
+* `TestAttributeContainer` is a module that, when used to extend a class, adds an `attributes` Hash property (reader and writer) to the extending class. While `attributes` is initially empty, it may be added to either by defining a single key, or by mass-assigning a Hash to `attributes`. Once an individual "attribute" is defined for a class instance, it can be read from or written to using a direct method on that instance. See the discussion in "Usage" below for more details.
+
 
 ## Installation
 
@@ -105,11 +107,49 @@ the value of `error_data` written to the log would be (formatted for clarity)
 Note that no guarantees are made for ordering, just as seems to be the case for
 `ActiveModel::Errors`.
 
+### `TestAttributeContainer`
+
+This module implements support for attributes in a way that can be thought of as "halfway between a [`Struct`](http://ruby-doc.org//core-2.1.5/Struct.html) and an [`OpenStruct`](http://ruby-doc.org/stdlib-2.1.5/libdoc/ostruct/rdoc/OpenStruct.html) or [`FancyOpenStruct`](https://github.com/tomchapin/fancy-open-struct/)."
+
+By extending a class with the module and invoking the `init_empty_attribute_container` class method within that class, a Hash is added as the `attributes` attribute of each instance of that class. It can be assigned to directly; once having done so, individual "attributes" may be accessed *or modified* through a method call using the name of the attribute.
+
+For example:
+
+```ruby
+class Foo
+  extend Repository::Support::TestAttributeContainer
+
+  init_empty_attribute_container
+end
+
+# interactively
+foo = Foo.new
+# => #<Foo:0x007fd2b4b9da28>
+foo.attributes
+# => {}
+foo.attributes = { foo: true, bar: 42 }
+# => {:foo=>true, :bar=>42}
+foo.foo
+# => true
+foo.foo = :whatever_you_want
+# => :whatever_you_want
+foo.attributes
+# => {:foo=>:whatever_you_want, :bar=>42}
+foo.quux
+# => NoMethodError: undefined method `quux' # ...
+foo.attributes[:quux] = 'hello'
+# => "hello"
+foo.quux
+# => "hello"
+```
+
+To create a new attribute after the container has been set up, assign to a new key in the `attributes` property Hash. As demonstrated above, the "attribute" can then be accessed or modified by using its name as a reader or writer method name. Without explicitly assigning to `attributes`, however, undefined methods raise errors as usual.
+
 ### A Note on Parameters
 
-All *public* methods (including `#initialize`) in each of these classes that
-have multiple arguments use the keyword-argument specification introduced in
-Ruby 2.0. By removing order dependency of arguments, inadvertent-reordering
+All *public* methods having multiple arguments (including `#initialize`) in each
+of the classes defined above use the keyword-argument specification introduced
+in Ruby 2.0. By removing order dependency of arguments, inadvertent-reordering
 errors are no longer a
 [hunt-the-typo](http://en.wikipedia.org/wiki/Hunt_the_Wumpus)
 exercise. This rule *does not* apply to single-parameter methods, nor to
