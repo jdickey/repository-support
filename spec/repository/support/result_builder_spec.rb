@@ -44,8 +44,8 @@ describe Repository::Support::ResultBuilder do
       let(:record) { false }
 
       it 'requires a block' do
-        message = 'no block given (yield)'
-        expect { obj.build }.to raise_error LocalJumpError, message
+        # message = 'no block given (yield)'
+        expect { obj.build }.to raise_error LocalJumpError # , message
       end
 
       describe 'returns a StoreResult instance which' do

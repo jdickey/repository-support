@@ -4,8 +4,8 @@ require 'spec_helper'
 describe Repository::Support::StoreResult do
   describe 'initialisation' do
     it 'requires three keyword-named parameters' do
-      message = 'missing keywords: entity, success, errors'
-      expect { described_class.new }.to raise_error ArgumentError, message
+      # message = 'missing keywords: entity, success, errors'
+      expect { described_class.new }.to raise_error ArgumentError # , message
     end
 
     it 'succeeds with specified values that can then be read back correctly' do
