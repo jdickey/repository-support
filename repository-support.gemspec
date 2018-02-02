@@ -14,7 +14,8 @@ Gem::Specification.new do |spec|
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  # This Gem installs no executables of its own, and developer stubs for bin/setup will be overwritten
+  # spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
@@ -22,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activemodel', '~> 4.2', '>= 4.2.10'
 
-  spec.add_development_dependency 'bundler', '~> 1.16'
+  spec.add_development_dependency 'bundler', '~> 1.16' # '10.5.0'
   spec.add_development_dependency 'rake', '~> 12.3', '>= 12.3.0'
   spec.add_development_dependency 'rspec', '~> 3.7'
   spec.add_development_dependency 'rubocop', '~> 0.52', '>= 0.52.1'
