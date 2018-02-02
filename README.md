@@ -1,10 +1,28 @@
-# Repository::Support
+<h1>Repository::Support</h1>
 
 [![Gem Version](https://badge.fury.io/rb/repository-support.svg)](http://badge.fury.io/rb/repository-support)
 [![Code Climate](https://codeclimate.com/github/jdickey/repository-support/badges/gpa.svg)](https://codeclimate.com/github/jdickey/repository-support)
 [ ![Codeship Status for jdickey/repository-support](https://codeship.com/projects/224d6180-997e-0132-c9c3-165733f17d49/status?branch=master)](https://codeship.com/projects/63652)
 [![security](https://hakiri.io/github/jdickey/repository-support/master.svg)](https://hakiri.io/github/jdickey/repository-support/master)
 [![Dependency Status](https://gemnasium.com/jdickey/repository-support.svg)](https://gemnasium.com/jdickey/repository-support)
+
+<h2>Contents</h2>
+
+- [Overview](#overview)
+- [IMPORTANT LEGACY NOTICE](#important-legacy-notice)
+- [Installation](#installation)
+- [Usage](#usage)
+  * [`StoreResult`](#storeresult)
+    + [`StoreResult::Success`](#storeresultsuccess)
+    + [`StoreResult::Failure`](#storeresultfailure)
+  * [`ErrorFactory`](#errorfactory)
+  * [`TestAttributeContainer`](#testattributecontainer)
+  * [A Note on Parameters](#a-note-on-parameters)
+- [Contributing](#contributing)
+- [Version History](#version-history)
+- [Legal](#legal)
+
+## Overview
 
 This Gem provides several support classes and modules for
 [`Repository::Base`](https://github.com/jdickey/repository-base) and its
@@ -18,6 +36,11 @@ These classes and modules are:
 * `StoreResult` is a simple value object with three accessors for values passed in to the `#initialize` method: namely `#entity` (some value object); `#success` (a Boolean, aliased as `#success?`); and `#errors` an Array of error records as created by `ErrorFactory.create`. It has two subclasses: `StoreResult::Success` fills in a `StoreResult` using its single parameter (the entity) and defaults for the other fields; and `StoreResult::Failure`, which does likewise initialised with an array of error hashes.
 * `TestAttributeContainer` is a module that, when used to extend a class, adds an `attributes` Hash property (reader and writer) to the extending class. While `attributes` is initially empty, it may be added to either by defining a single key, or by mass-assigning a Hash to `attributes`. Once an individual "attribute" is defined for a class instance, it can be read from or written to using a direct method on that instance. See the discussion in "Usage" below for more details.
 
+## IMPORTANT LEGACY NOTICE
+
+**_NOTICE!_** This Gem was created to support a solo, ad-hoc, early learning experience in what is now known as Clean Architecture. It was part of our first attempt to build an alternative to the ActiveRecord/ActiveModel scheme native to Ruby on Rails.
+
+As such, it has been superseded and far outshone by other, team efforts, notably [ROM](http://rom-rb.org/) as used with [Hanami](http://hanamirb.org/) and [Trailblazer](http://trailblazer.to/). You are *strongly advised* to examine these and other tools rather than to use this for *any* new development. The Gem is being republished as an 0.1.0 release purely for internal archaeologigical purposes.
 
 ## Installation
 
@@ -165,3 +188,17 @@ exercise. This rule *does not* apply to single-parameter methods, nor to
 1. Create a new Pull Request. Describe at some length the rationale for your new feature; your implementation strategy at a higher level than each individual commit message; anything future maintainers should be aware of; and so on. *If this is a modification to existing code, reference the open issue being addressed*.
 1. Don't be discouraged if the PR generates a discussion that leads to further refinement of your PR through additional commits. These should *generally* be discussed in comments on the PR itself; discussion in the Gitter room (see below) may also be useful;
 1. If you've comments, questions, or just want to talk through your ideas, don't hesitate to hang out in the `Repository::Base` [room on Gitter](https://gitter.im/jdickey/repository-base). Ask away!
+
+## Version History
+
+| Version | Date | Notes |
+| ------- | ---- | ----- |
+| v0.1.0 | 2 February 2018 | Changed MRI supported version from 2.2.2 to 2.5.0; **published legacy notice** |
+| v0.0.4 | 9 March 2015 | Added experimental, one-off JRuby 9000 support |
+| v0.0.3 | 21 February 2015 | Completed initial feature development |
+| v0.0.2 | 18 February 2015 | Internal; incremental feature development |
+| v0.0.1 | 18 February 2015 | Internal; incremental feature development |
+
+## Legal
+
+This document and the accompanying code are Copyright &copy; 2015-2018 by Jeff Dickey/Seven Sigma Agility, and are released under the terms of the [MIT License](https://opensource.org/licenses/MIT).

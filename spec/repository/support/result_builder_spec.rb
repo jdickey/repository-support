@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 
 require 'spec_helper'
 
 describe Repository::Support::ResultBuilder do
   describe 'initialisation' do
     it 'requires one parameter' do
-      message = 'wrong number of arguments (0 for 1)'
+      message = /wrong number of arguments \(.+?\)/
       expect { described_class.new }.to raise_error ArgumentError, message
     end
 

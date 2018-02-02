@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 # Support classes for Repository::Base and subclasses.
 module Repository

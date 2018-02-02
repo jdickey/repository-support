@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 module Repository
   module Support
@@ -18,10 +19,12 @@ module Repository
       end # class Repository::Support::StoreResult::Failure
 
       attr_reader :entity, :errors, :success
-      alias_method :success?, :success
+      alias_method :success?, :success # rubocop:disable Style/Alias
 
-      def initialize(entity:, success:, errors:)
-        @entity, @success, @errors = entity, success, errors
+      def initialize(entity:, errors:, success:)
+        @entity = entity
+        @errors = errors
+        @success = success
       end
     end # class Repository::Support::StoreResult
   end
