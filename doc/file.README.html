@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.12
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'><h1>Repository::Support</h1>
+
+<p><a href="http://badge.fury.io/rb/repository-support"><img src="https://badge.fury.io/rb/repository-support.svg" alt="Gem Version" /></a>
+<a href="https://codeclimate.com/github/jdickey/repository-support"><img src="https://codeclimate.com/github/jdickey/repository-support/badges/gpa.svg" alt="Code Climate" /></a>
+<a href="https://codeship.com/projects/63652"> <img src="https://codeship.com/projects/224d6180-997e-0132-c9c3-165733f17d49/status?branch=master" alt="Codeship Status for jdickey/repository-support" /></a>
+<a href="https://hakiri.io/github/jdickey/repository-support/master"><img src="https://hakiri.io/github/jdickey/repository-support/master.svg" alt="security" /></a>
+<a href="https://gemnasium.com/jdickey/repository-support"><img src="https://gemnasium.com/jdickey/repository-support.svg" alt="Dependency Status" /></a></p>
+
+<h2>Contents</h2>
+
+<ul>
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#important-legacy-notice">IMPORTANT LEGACY NOTICE</a></li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#usage">Usage</a>
+    <ul>
+      <li><a href="#storeresult"><code>StoreResult</code></a>
+        <ul>
+          <li><a href="#storeresultsuccess"><code>StoreResult::Success</code></a></li>
+          <li><a href="#storeresultfailure"><code>StoreResult::Failure</code></a></li>
+        </ul>
+      </li>
+      <li><a href="#errorfactory"><code>ErrorFactory</code></a></li>
+      <li><a href="#testattributecontainer"><code>TestAttributeContainer</code></a></li>
+      <li><a href="#a-note-on-parameters">A Note on Parameters</a></li>
+    </ul>
+  </li>
+  <li><a href="#contributing">Contributing</a></li>
+  <li><a href="#version-history">Version History</a></li>
+  <li><a href="#legal">Legal</a></li>
+</ul>
+
+<h2 id="overview">Overview</h2>
+
+<p>This Gem provides several support classes and modules for
+<a href="https://github.com/jdickey/repository-base"><code>Repository::Base</code></a> and its
+user-created subclasses, which implement the Repository layer of a typical Data
+Mapper pattern architecture.</p>
+
+<p>These classes and modules are:</p>
+
+<ul>
+  <li><code>ErrorFactory</code> provides a single class method, <code>.create</code> which, when supplied with an <code>ActiveModel::Errors</code>-quacking object as a parameter, produces an Array of Hashes containing JSON-compatible error information;</li>
+  <li><code>ResultBuilder</code> is a Command-pattern class whose <code>#initialize</code> method takes one parameter and whose <code>#build</code> method evaluates that value. If it is truthy, then <code>#build</code> returns a <code>StoreResult::Success</code> (see below) with that value as its “paylaaod”. If the value is falsy, then <code>#build</code> returns a <code>StoreResult#Failure</code>, yielding the value to a block that returns the payload for the <code>StoreResult</code>.</li>
+  <li><code>StoreResult</code> is a simple value object with three accessors for values passed in to the <code>#initialize</code> method: namely <code>#entity</code> (some value object); <code>#success</code> (a Boolean, aliased as <code>#success?</code>); and <code>#errors</code> an Array of error records as created by <code>ErrorFactory.create</code>. It has two subclasses: <code>StoreResult::Success</code> fills in a <code>StoreResult</code> using its single parameter (the entity) and defaults for the other fields; and <code>StoreResult::Failure</code>, which does likewise initialised with an array of error hashes.</li>
+  <li><code>TestAttributeContainer</code> is a module that, when used to extend a class, adds an <code>attributes</code> Hash property (reader and writer) to the extending class. While <code>attributes</code> is initially empty, it may be added to either by defining a single key, or by mass-assigning a Hash to <code>attributes</code>. Once an individual “attribute” is defined for a class instance, it can be read from or written to using a direct method on that instance. See the discussion in “Usage” below for more details.</li>
+</ul>
+
+<h2 id="important-legacy-notice">IMPORTANT LEGACY NOTICE</h2>
+
+<p><strong><em>NOTICE!</em></strong> This Gem was created to support a solo, ad-hoc, early learning experience in what is now known as Clean Architecture. It was part of our first attempt to build an alternative to the ActiveRecord/ActiveModel scheme native to Ruby on Rails.</p>
+
+<p>As such, it has been superseded and far outshone by other, team efforts, notably <a href="http://rom-rb.org/">ROM</a> as used with <a href="http://hanamirb.org/">Hanami</a> and <a href="http://trailblazer.to/">Trailblazer</a>. You are <em>strongly advised</em> to examine these and other tools rather than to use this for <em>any</em> new development. The Gem is being republished as an 0.1.0 release purely for internal archaeologigical purposes.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Add this line to your application’s Gemfile:</p>
+
+<p><code>ruby
+gem 'repository-support'
+</code></p>
+
+<p>And then execute:</p>
+
+<pre class="code ruby"><code class="ruby">$ bundle
+</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre class="code ruby"><code class="ruby">$ gem install repository-support
+</code></pre>
+
+<h2 id="usage">Usage</h2>
+
+<h3 id="storeresult"><code>StoreResult</code></h3>
+
+<p><code>StoreReult</code> is used as the return value from all <code>Repository::Base</code> instance
+methods (actions) <em>except</em> <code>#all</code>.</p>
+
+<p>If the action implemented by the method was successful, it returns a
+<code>StoreResult</code> where</p>
+
+<ul>
+  <li>the <code>entity</code> attribute is an entity matching the state of the record persisted or accessed by the action;</li>
+  <li>the <code>success</code> attribute (or <code>#success?</code> method) is <code>true</code>; and</li>
+  <li>the <code>errors</code> attribute is an empty Array.</li>
+</ul>
+
+<p>If the action was unsuccessful, the repository method returns a <code>StoreResult</code>
+where</p>
+
+<ul>
+  <li>the <code>entity</code> attribute is <code>nil</code>;</li>
+  <li>the <code>success</code> attribute (or <code>#success?</code> method) is <code>false</code>; and</li>
+  <li>the <code>errors</code> attribute contains one error Hash for each error preventing the action from succeeding.</li>
+</ul>
+
+<h4 id="storeresultsuccess"><code>StoreResult::Success</code></h4>
+
+<p>This subclass of <code>StoreResult</code> is a convenience for initialising a successful
+<code>StoreResult</code>. Its <code>#initialize</code> method takes a single parameter, the entity to
+be used in the result, with the other fields set as described above for a
+successful result.</p>
+
+<h4 id="storeresultfailure"><code>StoreResult::Failure</code></h4>
+
+<p>This subclass of <code>StoreResult</code> is a convenience for initialising an unsuccessful
+<code>StoreResult</code>. Its <code>#initialize</code> method takes a single parameter, the Array of
+error hashes to be used in the result, with the other fields set as described
+above for an unsuccessful result.</p>
+
+<h3 id="errorfactory"><code>ErrorFactory</code></h3>
+
+<p>This class has a single class method, <code>.create</code>. Given a parameter value that
+quacks as an<a href="http://api.rubyonrails.org/classes/ActiveModel/Errors.html"><code>ActiveModel::Errors</code></a>
+instance, it returns an Array where each item is a Hash derived from each error
+reported by the parameter object, or an empty Array if there are no errors. Each
+Hash in the Array has two fields:</p>
+
+<ol>
+  <li><code>field</code>, which contains the attribute passed to <a href="http://api.rubyonrails.org/classes/ActiveModel/Errors.html#method-i-add"><code>ActiveModel::Errors#add</code></a> <em>as a string</em>; and</li>
+  <li><code>message</code>, which contains the message as passed into the same <code>#add</code> call.</li>
+</ol>
+
+<p>So, given an <code>ActiveModel::Errors</code> object that resulted from the following code:</p>
+
+<p><code>ruby
+  errors = ActiveModel::Errors.new self
+  # ...
+  errors.add :frobulator, 'does not frob'
+  errors.add :frobulator, `is busted'
+  errors.add :foo, 'is :foo'
+  # ...
+  error_data = ErrorFactory.create errors
+  @logger.log error_data
+</code></p>
+
+<p>the value of <code>error_data</code> written to the log would be (formatted for clarity)</p>
+
+<p><code>
+[
+  {field: 'frobulator', message: 'does not frob'},
+  {field: 'frobulator', message: 'is busted'},
+  {field: 'foo', 'is :foo'}
+]
+</code></p>
+
+<p>Note that no guarantees are made for ordering, just as seems to be the case for
+<code>ActiveModel::Errors</code>.</p>
+
+<h3 id="testattributecontainer"><code>TestAttributeContainer</code></h3>
+
+<p>This module implements support for attributes in a way that can be thought of as “halfway between a <a href="http://ruby-doc.org//core-2.1.5/Struct.html"><code>Struct</code></a> and an <a href="http://ruby-doc.org/stdlib-2.1.5/libdoc/ostruct/rdoc/OpenStruct.html"><code>OpenStruct</code></a> or <a href="https://github.com/tomchapin/fancy-open-struct/"><code>FancyOpenStruct</code></a>.”</p>
+
+<p>By extending a class with the module and invoking the <code>init_empty_attribute_container</code> class method within that class, a Hash is added as the <code>attributes</code> attribute of each instance of that class. It can be assigned to directly; once having done so, individual “attributes” may be accessed <em>or modified</em> through a method call using the name of the attribute.</p>
+
+<p>For example:</p>
+
+<p>```ruby
+class Foo
+  extend Repository::Support::TestAttributeContainer</p>
+
+<p>init_empty_attribute_container
+end</p>
+
+<h1 id="interactively">interactively</h1>
+<p>foo = Foo.new
+# =&gt; #<Foo:0x007fd2b4b9da28>
+foo.attributes
+# =&gt; {}
+foo.attributes = { foo: true, bar: 42 }
+# =&gt; :bar=&gt;42
+foo.foo
+# =&gt; true
+foo.foo = :whatever_you_want
+# =&gt; :whatever_you_want
+foo.attributes
+# =&gt; :bar=&gt;42
+foo.quux
+# =&gt; NoMethodError: undefined method `quux' # ...
+foo.attributes[:quux] = 'hello'
+# =&gt; "hello"
+foo.quux
+# =&gt; "hello"
+```</Foo:0x007fd2b4b9da28></p>
+
+<p>To create a new attribute after the container has been set up, assign to a new key in the <code>attributes</code> property Hash. As demonstrated above, the “attribute” can then be accessed or modified by using its name as a reader or writer method name. Without explicitly assigning to <code>attributes</code>, however, undefined methods raise errors as usual.</p>
+
+<h3 id="a-note-on-parameters">A Note on Parameters</h3>
+
+<p>All <em>public</em> methods having multiple arguments (including <code>#initialize</code>) in each
+of the classes defined above use the keyword-argument specification introduced
+in Ruby 2.0. By removing order dependency of arguments, inadvertent-reordering
+errors are no longer a
+<a href="http://en.wikipedia.org/wiki/Hunt_the_Wumpus">hunt-the-typo</a>
+exercise. This rule <em>does not</em> apply to single-parameter methods, nor to
+<code>private</code> methods.</p>
+
+<h2 id="contributing">Contributing</h2>
+
+<ol>
+  <li>Fork it ( https://github.com/jdickey/repository-support/fork )</li>
+  <li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+  <li>Ensure that your changes are completely covered by <em>passing</em> specs, and comply with the <a href="https://github.com/bbatsov/ruby-style-guide">Ruby Style Guide</a> as enforced by <a href="https://github.com/bbatsov/rubocop">RuboCop</a>. To verify this, run <code>bundle exec rake</code>, noting and repairing any lapses in coverage or style violations;</li>
+  <li>Commit your changes (<code>git commit -a</code>). Please <em>do not</em> use a single-line commit message (<code>git commit -am "some message"</code>). A good commit message notes what was changed and why in sufficient detail that a relative newcomer to the code can understand your reasoning and your code;</li>
+  <li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+  <li>Create a new Pull Request. Describe at some length the rationale for your new feature; your implementation strategy at a higher level than each individual commit message; anything future maintainers should be aware of; and so on. <em>If this is a modification to existing code, reference the open issue being addressed</em>.</li>
+  <li>Don’t be discouraged if the PR generates a discussion that leads to further refinement of your PR through additional commits. These should <em>generally</em> be discussed in comments on the PR itself; discussion in the Gitter room (see below) may also be useful;</li>
+  <li>If you’ve comments, questions, or just want to talk through your ideas, don’t hesitate to hang out in the <code>Repository::Base</code> <a href="https://gitter.im/jdickey/repository-base">room on Gitter</a>. Ask away!</li>
+</ol>
+
+<h2 id="version-history">Version History</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Date</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>v0.1.0</td>
+      <td>2 February 2018</td>
+      <td>Changed MRI supported version from 2.2.2 to 2.5.0; <strong>published legacy notice</strong></td>
+    </tr>
+    <tr>
+      <td>v0.0.4</td>
+      <td>9 March 2015</td>
+      <td>Added experimental, one-off JRuby 9000 support</td>
+    </tr>
+    <tr>
+      <td>v0.0.3</td>
+      <td>21 February 2015</td>
+      <td>Completed initial feature development</td>
+    </tr>
+    <tr>
+      <td>v0.0.2</td>
+      <td>18 February 2015</td>
+      <td>Internal; incremental feature development</td>
+    </tr>
+    <tr>
+      <td>v0.0.1</td>
+      <td>18 February 2015</td>
+      <td>Internal; incremental feature development</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="legal">Legal</h2>
+
+<p>This document and the accompanying code are Copyright © 2015-2018 by Jeff Dickey/Seven Sigma Agility, and are released under the terms of the <a href="https://opensource.org/licenses/MIT">MIT License</a>.</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Sun Feb  4 15:06:15 2018 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.12 (ruby-2.5.0).
+</div>
+
+    </div>
+  </body>
+</html>

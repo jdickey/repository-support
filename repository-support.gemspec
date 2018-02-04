@@ -21,13 +21,15 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.4.0'
 
-  spec.add_dependency 'activemodel', '~> 4.2', '>= 4.2.10'
+  spec.add_dependency 'activemodel', '~> 4.2', '>= 4.2.3'
 
-  spec.add_development_dependency 'bundler', '~> 1.16' # '10.5.0'
+  spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'rake', '~> 12.3', '>= 12.3.0'
   spec.add_development_dependency 'rspec', '~> 3.7'
   spec.add_development_dependency 'rubocop', '~> 0.52', '>= 0.52.1'
   spec.add_development_dependency 'simplecov', '~> 0.15', '>= 0.15.1'
   spec.add_development_dependency 'awesome_print', '>= 1.8.0'
+  spec.add_development_dependency 'kramdown', '>= 1.16.2'
+  spec.add_development_dependency 'yard', '>= 0.9.12'
 #  spec.add_development_dependency 'pry-byebug'
 end
